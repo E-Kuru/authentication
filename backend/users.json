@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "username": "jack",
+    "email": "jack@jack.jack",
+    "password": "hello",
+    "age": 99
+  },
+  {
+    "id": 2,
+    "username": "john",
+    "email": "john@john.john",
+    "password": "yoyo",
+    "age": 1
+  },
+  {
+    "id": 3,
+    "username": "bob",
+    "email": "boblepongebizare@bob.annanas",
+    "password": "patrick",
+    "age": 15
+  }
+]
