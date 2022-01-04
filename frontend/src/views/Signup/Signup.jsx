@@ -1,23 +1,12 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { useState , useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 const Signup = () => {
 
     let navigate = useNavigate()
-
-    const [AllUsers, setAllUsers] = useState([])
-
-    useEffect(() => {
-        fetch('http://localhost:5000/admin', {
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(res => setAllUsers(res))
-    }, [])
 
     const formik = useFormik({
 
@@ -31,8 +20,12 @@ const Signup = () => {
         onSubmit: values => {
 
             const newUser = {
-                id: AllUsers[AllUsers.length - 1].id + 1,    
                 ...values        
+            }
+
+            const User = {
+                username : values.username,
+                password : values.password
             }
     
             fetch('http://localhost:5000/auth/signup',{
@@ -49,7 +42,23 @@ const Signup = () => {
                 } 
                 else {
                     alert("All's good u're now a member")
-                    navigate('/admin')
+
+                    fetch('http://localhost:5000/auth/login',{
+                        credentials: 'include',
+                        method : 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                          },
+                        body: JSON.stringify(User)
+                    })
+                    .then(res => {
+                        if(res.status === 401){
+                            alert(`Error ${res.status} unauthorized`)
+                        } 
+                        else {
+                            navigate('/admin')
+                        }
+                    })        
                 }
             })
         },

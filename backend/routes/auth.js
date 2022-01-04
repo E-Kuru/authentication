@@ -3,6 +3,7 @@ const app = express()
 const passport = require('../config/passport')
 const fs = require("fs")
 const path = "./users.json"
+const Users = require('../users.json')
 const { UserExist } = require("../midlewares/checkUser")
 
 
@@ -18,6 +19,7 @@ app.post(`/login`, passport.authenticate('local'), (req, res) => {
 app.post('/signup', UserExist, (req,res) => {
 
     const newUser = {
+        id: Users[Users.length - 1].id + 1,    
         ...req.body
     }
 
