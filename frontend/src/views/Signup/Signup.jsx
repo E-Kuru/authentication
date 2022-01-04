@@ -37,6 +37,7 @@ const Signup = () => {
     
             fetch('http://localhost:5000/auth/signup',{
                 method : 'POST',
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
                   },

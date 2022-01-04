@@ -10,8 +10,21 @@ const Admin = () => {
             credentials: 'include'
         })
         .then(res => res.json())
-        .then(res => setUsers(res))
+        .then(res => {
+            if(res.error){
+                alert("U're not authorized")
+            }
+            else{
+                setUsers(res)
+            }
+        })
     }, [])
+
+    if(Users.length < 1){
+        return(
+            <Link to='/' style={{fontSize : '40px'}}>Please Log In</Link>
+        ) 
+    }
 
     return (
         <>

@@ -21,6 +21,7 @@ const LogIn = () => {
             }
         
             fetch('http://localhost:5000/auth/login',{
+                credentials: 'include',
                 method : 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -86,7 +87,7 @@ const LogIn = () => {
 
                 <button type="submit" className="btn btn-primary">Submit</button>
 
-                <Link to="/" style={{marginTop : "4%", textDecoration : "none"}}>Already a member ?</Link>
+                <Link to="/signup" style={{marginTop : "4%", textDecoration : "none"}}>Not a member yet ?</Link>
             </form>
         </div>
     )
