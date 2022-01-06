@@ -4,6 +4,7 @@ const cors = require("cors")
 const session = require("express-session")
 const passport = require("./config/passport")
 const auth = require('./routes/auth')
+const files = require('./routes/files')
 const admin = require('./routes/admin')
 
 
@@ -11,6 +12,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }))
+
 app.use(express.json())
 
 app.use(session({
@@ -21,8 +23,10 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(express.static('public'))
 
 app.use('/auth', auth)
+app.use('/files', files)
 app.use('/admin', admin)
 
 const port = 5000

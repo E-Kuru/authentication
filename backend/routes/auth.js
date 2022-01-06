@@ -20,7 +20,8 @@ app.post('/signup', UserExist, (req,res) => {
 
     const newUser = {
         id: Users[Users.length - 1].id + 1,    
-        ...req.body
+        ...req.body,
+        profile_picture : ""
     }
 
     fs.readFile(path, (err,data) => {
@@ -33,15 +34,14 @@ app.post('/signup', UserExist, (req,res) => {
         let user = JSON.parse(data)
 
         user = [...user, newUser]
-
+        
         fs.writeFile(path,JSON.stringify(user), (err) => {
             if (err){
                 res.status(500).send("Internal server error")
             }
+            res.json(newUser)
         })
     })
-
-    res.send(newUser)
     
 })
 

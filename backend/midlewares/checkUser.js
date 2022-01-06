@@ -1,12 +1,17 @@
 const users = require("../users.json")
 
 const UserExist = (req, res, next) => {
-  const { email } = req.body
-  const CheckUser = users.find(e => e.email === email)
+  const { email,username } = req.body
+  const CheckMail = users.find(e => e.email === email)
+  const CheckUsername = users.find(e => e.username === username)
 
-  if (CheckUser) {
+  if (CheckMail) {
       res.status(406).send("This email already exist")
-    } else {
+    }
+    else if (CheckUsername){
+      res.status(406).send("This username already exist")
+    }
+    else {
       next()
   }
 }

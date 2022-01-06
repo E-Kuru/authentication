@@ -3,8 +3,11 @@ import * as Yup from 'yup'
 
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 const Signup = () => {
+
+    const [file, setFile] = useState(null)
 
     let navigate = useNavigate()
 
@@ -12,54 +15,67 @@ const Signup = () => {
 
         initialValues: {
           username: "",
-          age : 0,
           email : "",
-          password: ""
+          password: "",
+          age : 0,
         },
 
         onSubmit: values => {
-
-            const newUser = {
-                ...values        
-            }
 
             const User = {
                 username : values.username,
                 password : values.password
             }
-    
+
             fetch('http://localhost:5000/auth/signup',{
                 method : 'POST',
                 credentials: 'include',
                 headers: {
                     "Content-Type": "application/json"
-                  },
-                body: JSON.stringify(newUser)
+                },
+                body: JSON.stringify(values)
             })
             .then(res => {
-                if(res.status === 406){
-                    alert(`Error ${res.status} this email already exist`)
-                } 
-                else {
-                    alert("All's good u're now a member")
 
-                    fetch('http://localhost:5000/auth/login',{
-                        credentials: 'include',
-                        method : 'POST',
-                        headers: {
-                            "Content-Type": "application/json"
-                          },
-                        body: JSON.stringify(User)
-                    })
-                    .then(res => {
-                        if(res.status === 401){
-                            alert(`Error ${res.status} unauthorized`)
-                        } 
-                        else {
-                            navigate('/admin')
-                        }
-                    })        
+                if(res.status === 406){
+                    alert(`Error ${res.status} this email or username already exist`)
                 }
+                
+                return res.json()
+            })
+            .then(res => {
+                
+                const formdata = new FormData()
+                formdata.append("photo", file, file.name)        
+
+                fetch(`http://localhost:5000/files/${res.id}`, {
+                    method: "post",
+                    body: formdata
+                  })
+                    .then(response => response.json())
+                    .then(data => {
+                      console.log(data)
+                })
+
+                alert("All's good u're now a member")
+
+                fetch('http://localhost:5000/auth/login',{
+                    credentials: 'include',
+                    method : 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                      },
+                    body: JSON.stringify(User)
+                })
+                .then(res => {
+                    if(res.status === 401){
+                        alert(`Error ${res.status} unauthorized`)
+                    } 
+                    else {
+                        console.log('ok');
+                    }
+                })        
+
             })
         },
 
@@ -78,6 +94,10 @@ const Signup = () => {
                 .required("Email requis")
         }),
     })
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0])
+    }
 
     return (
         <div style={{display : "flex", justifyContent : "center", alignItems : "center", height : "100vh"}}>
@@ -129,6 +149,14 @@ const Signup = () => {
                     name='password' 
                     value={formik.values.password} 
                     onChange={formik.handleChange}/>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">File Picture</label>
+                    <input 
+                    className="form-control" 
+                    type="file" 
+                    onChange={handleFileChange}/>
                 </div>
 
                 <button type="submit" className="btn btn-primary">Submit</button>

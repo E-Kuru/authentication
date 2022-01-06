@@ -4,20 +4,39 @@
     "username": "jack",
     "email": "jack@jack.jack",
     "password": "hello",
-    "age": 99
+    "age": 99,
+    "profile_picture": ""
   },
   {
     "id": 2,
     "username": "john",
     "email": "john@john.john",
     "password": "yoyo",
-    "age": 1
+    "age": 1,
+    "profile_picture": ""
   },
   {
     "id": 3,
     "username": "bob",
     "email": "boblepongebizare@bob.annanas",
     "password": "patrick",
-    "age": 15
+    "age": 15,
+    "profile_picture": ""
+  },
+  {
+    "id": 4,
+    "username": "Rebacca",
+    "email": "bk@mail.co",
+    "password": "bksensaiii",
+    "age": 15,
+    "profile_picture": ""
+  },
+  {
+    "id": 5,
+    "username": "Marcas",
+    "email": "maracas@mail.meetuc",
+    "password": "meetuclebest",
+    "age": 2,
+    "profile_picture": ""
   }
 ]
